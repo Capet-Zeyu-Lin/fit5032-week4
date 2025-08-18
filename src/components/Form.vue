@@ -2,6 +2,9 @@
 
 <script setup>
 import { ref } from 'vue';
+import {DataTable} from "primevue";
+import {Column} from "primevue";
+import {Button} from "primevue";
 
 const formData = ref({
   username: '',
@@ -14,10 +17,11 @@ const formData = ref({
 const submittedCards = ref([]);
 
 const submitForm = () => {
-  validateName(true)
-  validatePassword(true)
-  validateGender(true)
-  if(!errors.value.username && !errors.value.password && !errors.value.gender) {
+  // validateName(true)
+  // validatePassword(true)
+  // validateGender(true)
+  // validateReasonForJoining(true)
+  if(!errors.value.username && !errors.value.password && !errors.value.gender &&!errors.value.reason) {
     submittedCards.value.push({
       ...formData.value
     });
@@ -83,6 +87,15 @@ const validateGender = (blur) => {
   }
 }
 
+const validateReasonForJoining = (blur) => {
+  const reason = formData.value.reason;
+  if(!reason){
+    if(blur) errors.value.reason = "Please add your reason for joining";
+  } else {
+    errors.value.reason = null;
+  }
+}
+
 
 </script>
 
@@ -136,7 +149,11 @@ const validateGender = (blur) => {
       </div>
       <div class="mb-3">
         <label for="reason" class="form-label">Reason for joining</label>
-        <textarea class="form-control" id="reason"  rows="3" v-model="formData.reason"></textarea>
+        <textarea class="form-control" id="reason"  rows="3"
+                  @blur= "() => validateReasonForJoining(true)"
+                  @input= "() => validateReasonForJoining(false)"
+                  v-model="formData.reason"></textarea>
+        <div v-if="errors.reason" class="text-danger">{{ errors.reason }}</div>
       </div>
       <div class="text-center">
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -162,6 +179,27 @@ const validateGender = (blur) => {
           </ul>
         </div>
       </div>
+    </div>
+    <div  class="col-12">
+      <div class="datatable-panel">
+        <DataTable
+            :value="submittedCards"
+            paginator
+            :rows="5"
+            dataKey="username"
+            striped-rows
+            show-gridlines
+            :resizable-columns="true"
+            column-resize-mode="fit"
+            class = "p-datatable-sm">
+          <Column field="username" header="Username" :body="formData.username" sortable/>
+          <Column field="password" header="Password" sortable/>
+          <Column field="gender" header="Gender" sortable/>
+          <Column field="residence" header="Residence" sortable/>
+          <Column field="reason" header="Reason" sortable/>
+        </DataTable>
+      </div>
+
     </div>
   </div>
 
