@@ -1,0 +1,28 @@
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Class selectors */
+.form {
+    display: flex;
+    flex-direction: column;   /* 垂直排列 */
+    align-items: center;      /* 水平居中 */
+    justify-content: center;  /* 垂直居中 */
+    min-height: 100vh;        /* 占满整个屏幕高度 */
+}
+
+/* ID selectors */
+#username:focus,
+#password:focus,
+#isAustralian:focus,
+#reason:focus {
+    border-color: #FF6347; /* More obvious border color change (Tomato) */
+    background-color: #FFEBE8; /* Light background color change */
+}
+
+/* Attribute selectors */
+select[id="gender"] {
+    background-color: #d3d3d3; /* Default background color set to gray */
+}
