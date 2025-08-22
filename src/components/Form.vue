@@ -17,10 +17,10 @@ const formData = ref({
 const submittedCards = ref([]);
 
 const submitForm = () => {
-  // validateName(true)
-  // validatePassword(true)
-  // validateGender(true)
-  // validateReasonForJoining(true)
+  validateName(true)
+  validatePassword(true)
+  validateGender(true)
+  validateReasonForJoining(true)
   if(!errors.value.username && !errors.value.password && !errors.value.gender &&!errors.value.reason) {
     submittedCards.value.push({
       ...formData.value
@@ -195,7 +195,15 @@ const validateReasonForJoining = (blur) => {
           <Column field="username" header="Username" :body="formData.username" sortable/>
           <Column field="password" header="Password" sortable/>
           <Column field="gender" header="Gender" sortable/>
-          <Column field="residence" header="Residence" sortable/>
+          <Column header="Residence" :sortable="true" sortField="isAustralian">
+            <template #body="{ data }">
+              <span class="badge" :class="data.isAustralian ? 'bg-success' : 'bg-secondary'">
+                <span v-if="data.isAustralian">✓</span>
+                <span v-else>✗</span>
+                <span class="ms-1">{{ data.isAustralian ? 'Yes' : 'No' }}</span>
+              </span>
+            </template>
+          </Column>
           <Column field="reason" header="Reason" sortable/>
         </DataTable>
       </div>
